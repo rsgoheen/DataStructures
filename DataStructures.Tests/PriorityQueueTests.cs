@@ -16,10 +16,9 @@ namespace DataStructures.Tests
         [Category("Unit")]
         public void TestBasicIntSort()
         {
-            var items = ((IList<int>)Enumerable.Range(1, 100).ToList());
-            items.Shuffle();
+            var items = Enumerable.Range(1, 100).ToList().Shuffle();
 
-            var priorityQueue = new PriorityQueue<int> {items};
+            var priorityQueue = new PriorityQueue<int> { items };
 
             Assert.That(priorityQueue.Peek(), Is.EqualTo(1));
             Assert.That(priorityQueue.ToList(), Is.EquivalentTo(Enumerable.Range(1, 100).ToList()));
@@ -29,8 +28,7 @@ namespace DataStructures.Tests
         [Category("Unit")]
         public void TestReverseIntSort()
         {
-            var items = ((IList<int>)Enumerable.Range(1, 100).ToList());
-            items.Shuffle();
+            var items = Enumerable.Range(1, 100).ToList().Shuffle();
 
             var priorityQueue = new PriorityQueue<int>(true) { items };
 
@@ -42,9 +40,9 @@ namespace DataStructures.Tests
         [Category("Unit")]
         public void TestSortWithDuplicateKeys()
         {
-            var items = ((IList<int>)Enumerable.Range(1, 1000)
-                .Select(x => x % 10).ToList());
-            items.Shuffle();
+            var items = Enumerable.Range(1, 1000)
+                .Select(x => x % 10).ToList()
+                .Shuffle();
 
             var priorityQueue = new PriorityQueue<int>() { items };
 
@@ -56,13 +54,17 @@ namespace DataStructures.Tests
         [Category("Unit")]
         public void TestAdd()
         {
-            var items = ((IList<int>)Enumerable.Range(1, 1000)
-                .Select(x => x % 10).ToList());
-            items.Shuffle();
+            var items = Enumerable.Range(100, 1000).ToList().Shuffle();
 
             var priorityQueue = new PriorityQueue<int>() { items };
 
-            Assert.That(priorityQueue.Peek(), Is.EqualTo(0));
+            Enumerable.Range(1, 10).ToList().ForEach(priorityQueue.Add);
+            Enumerable.Range(10000, 10).ToList().ForEach(priorityQueue.Add);
+
+            ((List<int>)items).AddRange(Enumerable.Range(1, 10));
+            ((List<int>)items).AddRange(Enumerable.Range(10000, 10));
+
+            Assert.That(priorityQueue.Peek(), Is.EqualTo(1));
             Assert.That(priorityQueue.ToList(), Is.EquivalentTo(items.OrderBy(x => x).ToList()));
         }
 

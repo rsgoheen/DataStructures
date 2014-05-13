@@ -19,8 +19,7 @@ namespace DataStructures.Tests
 
             for (var i = 0; i < 10; i++)
             {
-                var list = Enumerable.Range(1, 500).ToList();
-                list.Shuffle(rnd);
+                var list = Enumerable.Range(1, 500).ToList().Shuffle(rnd);
 
                 Debug.WriteLine(string.Join(", ", list.Take(5)));
 

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pretero.DataStructures
 {
@@ -31,8 +28,8 @@ namespace Pretero.DataStructures
 
         public virtual void Add(T val)
         {
-            HeapArray.Add(val);
-            SetAt(HeapArray.Count - 1, val);
+            HeapArray.Add(val); // use Add to allocate space in list for new item
+            AddAt(HeapArray.Count - 1, val);
             UpHeap(HeapArray.Count - 1);
         }
 
@@ -49,29 +46,27 @@ namespace Pretero.DataStructures
         public virtual T Pop()
         {
             if (HeapArray.Count == 0)
-            {
                 throw new IndexOutOfRangeException("Popping an empty priority queue");
-            }
 
-            T valRet = HeapArray[0];
+            var valRet = HeapArray[0];
 
-            SetAt(0, HeapArray[HeapArray.Count - 1]);
+            AddAt(0, HeapArray[HeapArray.Count - 1]);
             HeapArray.RemoveAt(HeapArray.Count - 1);
             DownHeap(0);
             return valRet;
         }
 
-        protected virtual void SetAt(int i, T val)
+        protected virtual void AddAt(int i, T val)
         {
             HeapArray[i] = val;
         }
 
-        protected bool RightSonExists(int i)
+        protected bool RightChildNodeExists(int i)
         {
             return RightChildIndex(i) < HeapArray.Count;
         }
 
-        protected bool LeftSonExists(int i)
+        protected bool LeftChildNodeExists(int i)
         {
             return LeftChildIndex(i) < HeapArray.Count;
         }
@@ -114,8 +109,8 @@ namespace Pretero.DataStructures
         protected void Swap(int i, int j)
         {
             T valHold = ArrayVal(i);
-            SetAt(i, HeapArray[j]);
-            SetAt(j, valHold);
+            AddAt(i, HeapArray[j]);
+            AddAt(j, valHold);
         }
 
         protected void UpHeap(int i)
@@ -131,23 +126,23 @@ namespace Pretero.DataStructures
         {
             while (i >= 0)
             {
-                int iContinue = -1;
+                var next = -1;
 
-                if (RightSonExists(i) && Right(i).CompareTo(ArrayVal(i)) == CompareToItemComesBefore)
+                if (RightChildNodeExists(i) && Right(i).CompareTo(ArrayVal(i)) == CompareToItemComesBefore)
                 {
-                    iContinue = Left(i).CompareTo(Right(i)) > 0 ? RightChildIndex(i) : LeftChildIndex(i);
+                    next = Left(i).CompareTo(Right(i)) > 0 ? RightChildIndex(i) : LeftChildIndex(i);
                 }
-                else if (LeftSonExists(i) && Left(i).CompareTo(ArrayVal(i)) == CompareToItemComesBefore)
+                else if (LeftChildNodeExists(i) && Left(i).CompareTo(ArrayVal(i)) == CompareToItemComesBefore)
                 {
-                    iContinue = LeftChildIndex(i);
-                }
-
-                if (iContinue >= 0 && iContinue < HeapArray.Count)
-                {
-                    Swap(i, iContinue);
+                    next = LeftChildIndex(i);
                 }
 
-                i = iContinue;
+                if (next >= 0 && next < HeapArray.Count)
+                {
+                    Swap(i, next);
+                }
+
+                i = next;
             }
         }
 
