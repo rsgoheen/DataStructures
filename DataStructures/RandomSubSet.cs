@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pretero.DataStructures;
 
 namespace DataStructures
 {
@@ -11,12 +12,12 @@ namespace DataStructures
     /// based on a given criteria or simply randomly generated.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class RandomSet<T> where T : IEquatable<T>
+    class RandomSubSet<T> where T : IEquatable<T>
     {
         private readonly IList<T> _list;
         private readonly Random _rnd = new Random();
 
-        public RandomSet(IEnumerable<T> set)
+        public RandomSubSet(IEnumerable<T> set)
         {
             _list = new List<T>(set);
             Pivot = 0;
@@ -64,8 +65,7 @@ namespace DataStructures
             if (Pivot == _list.Count() - 1)
                 return false;
 
-            Swap(_rnd.Next(Pivot, _list.Count),
-                Pivot);
+            _list.Swap(_rnd.Next(Pivot, _list.Count), Pivot);
             Pivot++;
 
             return true;
@@ -86,7 +86,7 @@ namespace DataStructures
                 return false;
 
             var itemId = _list.IndexOf(subSet.Skip(_rnd.Next(subSetLength)).First());
-            Swap(itemId, Pivot);
+            _list.Swap(itemId, Pivot);
             Pivot++;
             return true;
         }
@@ -110,7 +110,7 @@ namespace DataStructures
 
             foreach (var id in itemIds)
             {
-                Swap(id, Pivot);
+                _list.Swap(id, Pivot);
                 Pivot++;
             }
 
@@ -134,16 +134,6 @@ namespace DataStructures
 
             item = subSet.Skip(_rnd.Next(subSetLength)).First();
             return true;
-        }
-
-        private void Swap(int first, int second)
-        {
-            if (first == second)
-                return;
-
-            T temp = _list[first];
-            _list[first] = _list[second];
-            _list[second] = temp;
         }
     }
 }
