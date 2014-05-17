@@ -56,6 +56,7 @@
     <Compile Include="PriorityQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ListExtensionTests.cs" />
+    <Compile Include="RandomSubSet\WhenIRequestACertainNumberOfMatchingItems.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

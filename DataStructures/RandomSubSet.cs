@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Pretero.DataStructures;
 
-namespace DataStructures
+namespace Pretero.DataStructures
 {
     /// <summary>
     /// For creating a random subset of a larger set.  A random subset can be 
     /// based on a given criteria or simply randomly generated.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class RandomSubSet<T> where T : IEquatable<T>
+    public class RandomSubSet<T> where T : IEquatable<T>
     {
         private readonly IList<T> _list;
         private readonly Random _rnd = new Random();
@@ -20,6 +21,7 @@ namespace DataStructures
         public RandomSubSet(IEnumerable<T> set)
         {
             _list = new List<T>(set);
+            _list.Shuffle();
             Pivot = 0;
         }
 
@@ -31,25 +33,16 @@ namespace DataStructures
         /// </summary>
         /// <returns>An enumerable set of items, or an empty set if there are no items before
         /// the pivot</returns>
-        public IEnumerable<T> GetFilteredSet()
+        public IEnumerable<T> GetFilteredItems()
         {
-            var subList = new T[Pivot];
-
-            Array.Copy(_list.ToArray(),
-                0,
-                subList,
-                0,
-                Pivot);
-
-            return subList;
+            for (var i = 0; i < Pivot; i++)
+                yield return _list[i];
         }
 
         public int FilteredItemCount
         {
             get { return Pivot; }
         }
-
-        public T this[int index] { get { return _list[index]; } }
 
         public int Count { get { return _list.Count; } }
 
@@ -65,7 +58,6 @@ namespace DataStructures
             if (Pivot == _list.Count() - 1)
                 return false;
 
-            _list.Swap(_rnd.Next(Pivot, _list.Count), Pivot);
             Pivot++;
 
             return true;
@@ -76,19 +68,28 @@ namespace DataStructures
         /// </summary>
         /// <param name="criteria">A function that returns true for all items that
         /// should be considered for moving to the filtered section</param>
+        /// <param name="count">The number of items to move</param>
         /// <returns></returns>
-        public bool MoveRandom(Func<T, bool> criteria)
+        public bool MoveRandom(Func<T, bool> criteria, int count = 1)
         {
-            var subSet = _list.Skip(Pivot).Where(criteria).ToArray();
+            var pivotStart = Pivot;
 
-            var subSetLength = subSet.Count();
-            if (subSetLength == 0)
-                return false;
+            var matchingItemIds = _list
+                .SkipWhile(x => _list.IndexOf(x) < pivotStart)
+                .Where(criteria)
+                .Take(count)
+                .Select(x => _list.IndexOf(x))
+                .ToArray();
 
-            var itemId = _list.IndexOf(subSet.Skip(_rnd.Next(subSetLength)).First());
-            _list.Swap(itemId, Pivot);
-            Pivot++;
-            return true;
+            foreach (var itemId in matchingItemIds)
+            {
+                _list.Swap(itemId, Pivot++);
+
+                if (Pivot >= _list.Count)
+                    break;
+            }
+
+            return pivotStart != Pivot;
         }
 
         /// <summary>
@@ -114,25 +115,6 @@ namespace DataStructures
                 Pivot++;
             }
 
-            return true;
-        }
-
-        /// <summary>
-        /// Returns a random item from the non-filtered section that matches the criteria
-        /// </summary>
-        /// <param name="item">An item, if found, matching the criteria</param>
-        /// <param name="criteria">The criteria to use when searching for an item</param>
-        /// <returns>true if a matching items is found, false otherwise</returns>
-        public bool TryGetRandomNonFiltered(out T item, Func<T, bool> criteria)
-        {
-            item = default(T);
-            var subSet = _list.Skip(Pivot).Where(criteria).ToArray();
-
-            var subSetLength = subSet.Count();
-            if (subSetLength == 0)
-                return false;
-
-            item = subSet.Skip(_rnd.Next(subSetLength)).First();
             return true;
         }
     }
