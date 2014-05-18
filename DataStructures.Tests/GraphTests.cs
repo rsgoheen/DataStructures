@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Pretero.DataStructures;
 using System;
 
 namespace DataStructures.Tests
@@ -18,24 +16,19 @@ namespace DataStructures.Tests
             var graph = new Pretero.DataStructures.Graph<int>(verticies);
 
             Assert.That(graph.Verticies.Count(),
-            Is.EqualTo(verticies.Count()));
+                Is.EqualTo(verticies.Count()));
+
+            for (var i = 1; i < 100; i++)
+                graph.AddEdge(i, i + 1);
+
+            Assert.That(graph.Verticies.Count(),
+                Is.EqualTo(verticies.Count()));
+
+            Assert.That(graph.AdjacentTo(1).Count(),
+                Is.EqualTo(1));
+            Assert.That(graph.AdjacentTo(1).First(),
+                Is.EqualTo(2));
         }
     }
 }
 
-namespace Pretero.DataStructures
-{
-    public class Graph<T>
-    {
-        private readonly List<T> _verticies = new List<T>();
-
-        public Graph(IEnumerable<T> verticies)
-        {
-            _verticies.AddRange(verticies);
-        }
-
-        public IEnumerable<T> Verticies {
-            get { return _verticies; } 
-        }
-    }
-}
