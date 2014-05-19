@@ -30,6 +30,9 @@ namespace DataStructures.Tests
                 Contains.Item(2));
             Assert.That(graph.AdjacentTo(2),
                 Contains.Item(1));
+
+            Assert.That(graph.Edges,
+                Is.EqualTo(99));
         }
     }
 }

@@ -6,6 +6,8 @@ namespace Pretero.DataStructures
 {
     public class Graph<T> where T : IEquatable<T>
     {
+        public int Edges { get; private set; }
+
         private readonly List<Vertex<T>> _verticies = new List<Vertex<T>>();
 
         public Graph(IEnumerable<T> verticies)
@@ -25,6 +27,8 @@ namespace Pretero.DataStructures
 
             vertex = _verticies.Single(x => x.Value.Equals(second));
             vertex.AddEdge(first);
+
+            Edges++;
         }
 
         public IEnumerable<T> AdjacentTo(T first)
