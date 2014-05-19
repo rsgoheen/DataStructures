@@ -22,6 +22,9 @@ namespace Pretero.DataStructures
         {
             var vertex = _verticies.Single(x => x.Value.Equals(first));
             vertex.AddEdge(second);
+
+            vertex = _verticies.Single(x => x.Value.Equals(second));
+            vertex.AddEdge(first);
         }
 
         public IEnumerable<T> AdjacentTo(T first)

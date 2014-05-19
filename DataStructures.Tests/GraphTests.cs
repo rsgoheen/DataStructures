@@ -26,8 +26,10 @@ namespace DataStructures.Tests
 
             Assert.That(graph.AdjacentTo(1).Count(),
                 Is.EqualTo(1));
-            Assert.That(graph.AdjacentTo(1).First(),
-                Is.EqualTo(2));
+            Assert.That(graph.AdjacentTo(1),
+                Contains.Item(2));
+            Assert.That(graph.AdjacentTo(2),
+                Contains.Item(1));
         }
     }
 }
