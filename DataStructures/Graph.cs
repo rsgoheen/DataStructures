@@ -6,14 +6,27 @@ namespace Pretero.DataStructures
 {
     public class Graph<T> where T : IEquatable<T>
     {
-        public int Edges { get; private set; }
-
-        private readonly List<Vertex<T>> _verticies = new List<Vertex<T>>();
-
         public Graph(IEnumerable<T> verticies)
         {
             _verticies.AddRange(verticies.Select(x => new Vertex<T>(x)));
         }
+
+        public Graph(IEnumerable<Tuple<T,T>> items)
+        {
+            foreach (var item in items)
+            {
+                var firstVertex = RetrieveOrCreateVertex(item.Item1);
+                var secondVertex = RetrieveOrCreateVertex(item.Item2);
+            }
+        }
+
+        private Vertex<T> RetrieveOrCreateVertex(T value)
+        {
+            return _verticies.SingleOrDefault(x => x.Value.Equals(value))
+                   ?? new Vertex<T>(value);
+        }
+
+        private readonly List<Vertex<T>> _verticies = new List<Vertex<T>>();
 
         public IEnumerable<T> Verticies
         {
@@ -22,42 +35,21 @@ namespace Pretero.DataStructures
 
         public void AddEdge(T first, T second)
         {
-            var vertex = _verticies.Single(x => x.Value.Equals(first));
-            vertex.AddEdge(second);
+            var firstVertex = _verticies.Single(x => x.Value.Equals(first));
+            var secondVertex = _verticies.Single(x => x.Value.Equals(second));
 
-            vertex = _verticies.Single(x => x.Value.Equals(second));
-            vertex.AddEdge(first);
+            firstVertex.AddEdge(secondVertex);
+            secondVertex.AddEdge(firstVertex);
 
             Edges++;
         }
 
-        public IEnumerable<T> AdjacentTo(T first)
+        public IEnumerable<Vertex<T>> AdjacentTo(T first)
         {
             var vertex = _verticies.Single(x => x.Value.Equals(first));
             return vertex.AdjacentVerteces;
         }
-    }
 
-    public class Vertex<T> where T : IEquatable<T>
-    {
-        private readonly List<T> _edges = new List<T>();
-        private readonly T _vertex;
-
-        public Vertex(T vertex)
-        {
-            _vertex = vertex;
-        }
-
-        public void AddEdge(T edgeTo)
-        {
-            _edges.Add(edgeTo);
-        }
-
-        public T Value
-        {
-            get { return _vertex; }
-        }
-
-        public IEnumerable<T> AdjacentVerteces { get { return _edges; } }
+        public int Edges { get; private set; }
     }
 }
