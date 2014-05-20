@@ -17,13 +17,25 @@ namespace Pretero.DataStructures
             {
                 var firstVertex = RetrieveOrCreateVertex(item.Item1);
                 var secondVertex = RetrieveOrCreateVertex(item.Item2);
+
+               firstVertex.AddEdge(secondVertex);
+               secondVertex.AddEdge(firstVertex);
+
+               Edges++;
             }
         }
 
         private Vertex<T> RetrieveOrCreateVertex(T value)
         {
-            return _verticies.SingleOrDefault(x => x.Value.Equals(value))
-                   ?? new Vertex<T>(value);
+            var vertex = _verticies.SingleOrDefault(x => x.Value.Equals(value));
+
+           if (vertex == null)
+           {
+              vertex = new Vertex<T>(value);
+              _verticies.Add(vertex);
+           }
+
+           return vertex;
         }
 
         private readonly List<Vertex<T>> _verticies = new List<Vertex<T>>();
