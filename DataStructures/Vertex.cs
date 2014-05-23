@@ -28,5 +28,10 @@ namespace Pretero.DataStructures
         }
 
         public IEnumerable<Vertex<T>> AdjacentVerteces { get { return _edges; } }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }

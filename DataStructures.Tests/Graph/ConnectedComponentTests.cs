@@ -19,17 +19,20 @@ namespace DataStructures.Tests.Graph
 
             Assert.That(cc.AreConnected(1,11),
                 Is.False);
+
+            Assert.That(cc.AreConnected(1, 10),
+                Is.True);
         }
 
         private IEnumerable<Tuple<int, int>> GetVertices()
         {
-            foreach (var item in Enumerable.Range(1, 10).Select(x => new Tuple<int, int>(x, x+1)))
+            foreach (var item in Enumerable.Range(1, 9).Select(x => new Tuple<int, int>(x, x+1)))
                 yield return item;
 
-            foreach (var item in Enumerable.Range(11, 20).Select(x => new Tuple<int, int>(x, x + 1)))
+            foreach (var item in Enumerable.Range(11, 19).Select(x => new Tuple<int, int>(x, x + 1)))
                 yield return item;
 
-            foreach (var item in Enumerable.Range(11, 20).Select(x => new Tuple<int, int>(x, x + 1)))
+            foreach (var item in Enumerable.Range(21, 29).Select(x => new Tuple<int, int>(x, x + 1)))
                 yield return item;
         }
     }

@@ -10,7 +10,7 @@ namespace Pretero.DataStructures
     {
         private readonly Graph<T> _graph;
 
-        private Dictionary<T, int> _groupings = new Dictionary<T, int>();
+        private readonly Dictionary<Vertex<T>, int> _groupings = new Dictionary<Vertex<T>, int>();
 
         public ConnectedComponent(Graph<T> graph)
         {
@@ -20,17 +20,54 @@ namespace Pretero.DataStructures
 
         private void ProcessGraph()
         {
-            var group = 0;
+            var grouping = 0;
             foreach (var vertex in _graph.Verticies)
             {
-                
+                if (_groupings.ContainsKey(vertex))
+                    continue;
+
+                DFS(vertex, grouping++);
+            }
+        }
+
+        private void DFS(Vertex<T> vertex, int grouping)
+        {
+            var vertexStack = new Stack<Vertex<T>>();
+            var visited = new HashSet<Vertex<T>>();
+            vertexStack.Push(vertex);
+
+            while (vertexStack.Count > 0)
+            {
+                var item = vertexStack.Pop();
+
+                if (visited.Contains(item))
+                    continue;
+
+                visited.Add(item);
+
+                if (!_groupings.ContainsKey(item))
+                    _groupings.Add(item, grouping);
+
+                foreach (var childItem in item.AdjacentVerteces)
+                {
+                    if(vertexStack.Contains(childItem))
+                        continue;
+
+                    vertexStack.Push(childItem);
+                }
             }
 
         }
 
         public bool AreConnected(T first, T second)
         {
-            return _groupings[first] == _groupings[second];
+            var firstVertex = _graph.Verticies.SingleOrDefault(x => x.Value.Equals(first));
+            var secondVertex = _graph.Verticies.SingleOrDefault(x => x.Value.Equals(second));
+
+            if (firstVertex == null || secondVertex == null)
+                return false;
+
+            return _groupings[firstVertex] == _groupings[secondVertex];
         }
     }
 }

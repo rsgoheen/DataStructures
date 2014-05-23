@@ -40,9 +40,9 @@ namespace Pretero.DataStructures
 
         private readonly List<Vertex<T>> _verticies = new List<Vertex<T>>();
 
-        public IEnumerable<T> Verticies
+        public IEnumerable<Vertex<T>> Verticies
         {
-            get { return _verticies.Select(x => x.Value); }
+            get { return _verticies; }
         }
 
         public void AddEdge(T first, T second)
