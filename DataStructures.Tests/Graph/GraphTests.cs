@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using NUnit.Framework;
 using System;
 
@@ -39,7 +38,6 @@ namespace DataStructures.Tests
         public void InitializeGraphTestsTupleConstructor()
         {
            var verticies = Enumerable.Range(1, 99).ToList();
-
            Func<int, Tuple<int,int>> tupleList = x => new Tuple<int, int>(x, x + 1);
 
            var graph = new Pretero.DataStructures.Graph<int>(verticies.Select(tupleList));

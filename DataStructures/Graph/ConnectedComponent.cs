@@ -10,7 +10,7 @@ namespace Pretero.DataStructures
     {
         private readonly Graph<T> _graph;
 
-        private Dictionary<Vertex<T>, int> _groupings = new Dictionary<Vertex<T>, int>();
+        private Dictionary<T, int> _groupings = new Dictionary<T, int>();
 
         public ConnectedComponent(Graph<T> graph)
         {
@@ -26,6 +26,11 @@ namespace Pretero.DataStructures
                 
             }
 
+        }
+
+        public bool AreConnected(T first, T second)
+        {
+            return _groupings[first] == _groupings[second];
         }
     }
 }
