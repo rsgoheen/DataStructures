@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graph\Bipartate.cs" />
     <Compile Include="Graph\ConnectedComponent.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="ListExtensions.cs" />

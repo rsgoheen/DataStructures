@@ -6,6 +6,8 @@ namespace Pretero.DataStructures
 {
     public class Graph<T> where T : IEquatable<T>
     {
+        public Graph() { }
+
         public Graph(IEnumerable<T> verticies)
         {
             _verticies.AddRange(verticies.Select(x => new Vertex<T>(x)));
