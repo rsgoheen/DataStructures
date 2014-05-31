@@ -53,6 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Graph\BipartiteTests.cs" />
     <Compile Include="Graph\ConnectedComponentTests.cs" />
     <Compile Include="Graph\GraphTests.cs" />
     <Compile Include="PriorityQueueTests.cs" />

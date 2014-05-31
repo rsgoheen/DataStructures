@@ -14,15 +14,7 @@ namespace Pretero.DataStructures
         public Graph(IEnumerable<Tuple<T,T>> items)
         {
             foreach (var item in items)
-            {
-                var firstVertex = RetrieveOrCreateVertex(item.Item1);
-                var secondVertex = RetrieveOrCreateVertex(item.Item2);
-
-               firstVertex.AddEdge(secondVertex);
-               secondVertex.AddEdge(firstVertex);
-
-               Edges++;
-            }
+                AddEdge(item.Item1, item.Item2);
         }
 
         private Vertex<T> RetrieveOrCreateVertex(T value)
@@ -47,8 +39,8 @@ namespace Pretero.DataStructures
 
         public void AddEdge(T first, T second)
         {
-            var firstVertex = _verticies.Single(x => x.Value.Equals(first));
-            var secondVertex = _verticies.Single(x => x.Value.Equals(second));
+            var firstVertex = RetrieveOrCreateVertex(first);
+            var secondVertex = RetrieveOrCreateVertex(second);
 
             firstVertex.AddEdge(secondVertex);
             secondVertex.AddEdge(firstVertex);

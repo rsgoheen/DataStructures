@@ -13,7 +13,7 @@ namespace DataStructures.Tests.Graph
         [Test]
         public void ConnectedComponentTest()
         {
-            var graph = new Pretero.DataStructures.Graph<int>(GetVertices());
+            var graph = new Graph<int>(GetVertices());
 
             var cc = new ConnectedComponent<int>(graph);
 
