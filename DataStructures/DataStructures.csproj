@@ -42,6 +42,7 @@
     <Compile Include="Graph\BaseGraph.cs" />
     <Compile Include="Graph\Bipartate.cs" />
     <Compile Include="Graph\ConnectedComponent.cs" />
+    <Compile Include="Graph\DirectedGraph.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="ListExtensions.cs" />
     <Compile Include="PriorityQueue.cs" />

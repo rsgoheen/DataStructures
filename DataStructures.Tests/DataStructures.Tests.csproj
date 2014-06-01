@@ -56,6 +56,7 @@
     <Compile Include="Graph\BipartiteTests.cs" />
     <Compile Include="Graph\ConnectedComponentTests.cs" />
     <Compile Include="Graph\GraphTests.cs" />
+    <Compile Include="Graph\DirectedAndUndirectedTests.cs" />
     <Compile Include="PriorityQueueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ListExtensionTests.cs" />
