@@ -9,7 +9,6 @@ namespace Pretero.DataStructures
     public class ConnectedComponent<T> where T: IEquatable<T>
     {
         private readonly Graph<T> _graph;
-
         private readonly Dictionary<Vertex<T>, int> _groupings = new Dictionary<Vertex<T>, int>();
 
         public ConnectedComponent(Graph<T> graph)
